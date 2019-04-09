@@ -57,11 +57,19 @@
 				1EFFC239225C46AD00C13E70 /* AppDelegate.swift */,
 				1EFFC23B225C46AD00C13E70 /* TodoListViewController.swift */,
 				1EFFC23D225C46AD00C13E70 /* Main.storyboard */,
-				1EFFC240225C46AE00C13E70 /* Assets.xcassets */,
+				1EFFC24B225C55F100C13E70 /* Assets */,
 				1EFFC242225C46AE00C13E70 /* LaunchScreen.storyboard */,
 				1EFFC245225C46AE00C13E70 /* Info.plist */,
 			);
 			path = Todooy;
+			sourceTree = "<group>";
+		};
+		1EFFC24B225C55F100C13E70 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				1EFFC240225C46AE00C13E70 /* Assets.xcassets */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
