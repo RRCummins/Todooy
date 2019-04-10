@@ -12,7 +12,7 @@ class TodoListViewController: UITableViewController {
   
   //MARK - Instance Variables
   
-  let itemArray = ["Find Mike", "Buy Eggod", "Destroy Demogorgon"]
+  var itemArray = [String]()
   
   //MARK - viewDidLoad
   
@@ -43,12 +43,37 @@ class TodoListViewController: UITableViewController {
       tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
     }
     
-    
     tableView.deselectRow(at: indexPath, animated: true)
+
+  }
+  
+  //MARK - Add New Item Method
+  
+  @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
     
+    var textField = UITextField()
     
+    let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
     
+    let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+      
+      //What happens when the user click the Add Item button on the alert
+      self.itemArray.append(textField.text ?? "New item")
+      
+      self.tableView.reloadData()
+      
+    }
     
+    alert.addTextField { (alertTextField) in
+      alertTextField.placeholder = "Creates new item"
+      //This extends the scope of alertTextField
+      textField = alertTextField
+    }
+    
+    alert.addAction(action)
+    
+    present(alert, animated: true, completion: nil)
+
   }
   
 
