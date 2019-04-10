@@ -16,12 +16,14 @@ class TodoListViewController: UITableViewController {
   //UserDefault
   let defaults = UserDefaults.standard
   
-  //MARK - viewDidLoad
+  //MARK - viewDidLoadç
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    itemArray = defaults.array(forKey: "TodoListArray") as! [String]
+    if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+      itemArray = items
+    }
     
   }
   
