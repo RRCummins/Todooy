@@ -39,9 +39,9 @@ class TodoListViewController: UITableViewController {
     
     
     
-//    if let items = defaults.array(forKey: "TodoListArray") as? [String] {
-//      itemArray = items
-//    }
+    if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+      itemArray = items
+    }
     
   }
   
@@ -60,9 +60,8 @@ class TodoListViewController: UITableViewController {
     let item = itemArray[indexPath.row]
     cell.textLabel?.text = item.title
     
-    //Ternery operator
+    //Ternery operator ==>
     // value = condition ? valueIfTure : valueIfFalse
-    
     cell.accessoryType = item.done ? .checkmark : .none
     
     return cell
@@ -76,9 +75,12 @@ class TodoListViewController: UITableViewController {
     // Using toggle
     itemArray[indexPath.row].done.toggle()
     
-    tableView.reloadData()
-    
-    tableView.deselectRow(at: indexPath, animated: true)
+    UIView.animate(withDuration: 0.1, animations: {
+      tableView.deselectRow(at: indexPath, animated: true)
+    }) {
+      (done) in
+      self.tableView.reloadData()
+    }
 
   }
   
@@ -101,7 +103,7 @@ class TodoListViewController: UITableViewController {
       
       self.defaults.set(self.itemArray, forKey: "TodoListArray")
       
-      self.tableView.reloadData()
+//      self.tableView.reloadData()
       
     }
     
