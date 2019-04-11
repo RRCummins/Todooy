@@ -70,9 +70,7 @@ class TodoListViewController: UITableViewController {
   //MARK - TableView Delegate Method
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    // Using the now operator
-//    itemArray[indexPath.row].done = !itemArray[indexPath.row].done
-    // Using toggle
+
     itemArray[indexPath.row].done.toggle()
     
     UIView.animate(withDuration: 0.1, animations: {
