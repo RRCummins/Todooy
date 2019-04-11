@@ -60,11 +60,10 @@ class TodoListViewController: UITableViewController {
     let item = itemArray[indexPath.row]
     cell.textLabel?.text = item.title
     
-    if item.done == true {
-      cell.accessoryType = .checkmark
-    } else {
-      cell.accessoryType = .none
-    }
+    //Ternery operator
+    // value = condition ? valueIfTure : valueIfFalse
+    
+    cell.accessoryType = item.done ? .checkmark : .none
     
     return cell
   }
