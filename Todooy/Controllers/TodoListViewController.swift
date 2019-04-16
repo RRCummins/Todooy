@@ -10,14 +10,14 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
   
-  //MARK - Instance Variables
+  //MARK: Instance Variables
   
   var itemArray = [Item]()
   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
   //UserDefaults code ↓
   let defaults = UserDefaults.standard
   
-  //MARK - viewDidLoadç
+  //MARK: viewDidLoad
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,7 +34,7 @@ class TodoListViewController: UITableViewController {
     
   }
   
-  //MARK - tableView Datasource Methods
+  //MARK: tableView Datasource Methods
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return itemArray.count
@@ -56,7 +56,7 @@ class TodoListViewController: UITableViewController {
     return cell
   }
   
-  //MARK - TableView Delegate Method
+  //MARK: TableView Delegate Method
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
@@ -72,7 +72,7 @@ class TodoListViewController: UITableViewController {
 
   }
   
-  //MARK - Add New Item Method
+  //MARK: Add New Item Method
   
   @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
     
