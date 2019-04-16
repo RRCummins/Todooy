@@ -75,13 +75,7 @@ class TodoListViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
     itemArray[indexPath.row].done.toggle()
-    let encoder = PropertyListEncoder()
-    do {
-      let data = try encoder.encode(self.itemArray)
-      try data.write(to: self.dataFilePath!)
-    } catch {
-      print("Error encoding item array, \(error)")
-    }
+    saveItems()
     
     UIView.animate(withDuration: 0.1, animations: {
       tableView.deselectRow(at: indexPath, animated: true)
@@ -109,15 +103,8 @@ class TodoListViewController: UITableViewController {
       
       self.itemArray.append(newItem)
       
-      let encoder = PropertyListEncoder()
+      self.saveItems()
       
-      do {
-        let data = try encoder.encode(self.itemArray)
-        try data.write(to: self.dataFilePath!)
-      } catch {
-        print("Error encoding item array, \(error)")
-      }
-        
       self.tableView.reloadData()
       
     }
@@ -133,7 +120,21 @@ class TodoListViewController: UITableViewController {
     present(alert, animated: true, completion: nil)
 
   }
-  
+  //MARK: Data Manipulation Methods
+  func saveItems() {
+    
+    let encoder = PropertyListEncoder()
+    
+    do {
+      let data = try encoder.encode(itemArray)
+      try data.write(to: dataFilePath!)
+    } catch {
+      print("Error encoding item array, \(error)")
+    }
+    
+    
+  }
 
 }
+
 
