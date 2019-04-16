@@ -13,6 +13,8 @@ class TodoListViewController: UITableViewController {
   //MARK: Instance Variables
   
   var itemArray = [Item]()
+  
+  // You could use this to create other plist files
   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
 //  //UserDefaults code ↓
 //  let defaults = UserDefaults.standard
