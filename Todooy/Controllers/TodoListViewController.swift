@@ -75,6 +75,13 @@ class TodoListViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
     itemArray[indexPath.row].done.toggle()
+    let encoder = PropertyListEncoder()
+    do {
+      let data = try encoder.encode(self.itemArray)
+      try data.write(to: self.dataFilePath!)
+    } catch {
+      print("Error encoding item array, \(error)")
+    }
     
     UIView.animate(withDuration: 0.1, animations: {
       tableView.deselectRow(at: indexPath, animated: true)
