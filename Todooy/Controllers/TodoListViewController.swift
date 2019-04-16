@@ -14,8 +14,8 @@ class TodoListViewController: UITableViewController {
   
   var itemArray = [Item]()
   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
-  //UserDefaults code ↓
-  let defaults = UserDefaults.standard
+//  //UserDefaults code ↓
+//  let defaults = UserDefaults.standard
   
   //MARK: viewDidLoad
   
