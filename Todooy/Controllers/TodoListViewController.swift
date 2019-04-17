@@ -71,7 +71,6 @@ class TodoListViewController: UITableViewController {
       (done) in
       self.tableView.reloadData()
     }
-
   }
   
   //MARK: Add New Item Method
