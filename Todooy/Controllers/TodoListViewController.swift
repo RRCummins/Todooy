@@ -59,10 +59,13 @@ class TodoListViewController: UITableViewController {
   //MARK: TableView Delegate Method
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-    itemArray[indexPath.row].done.toggle()
     
-    // Updates and saves data
+    // MARK - Deleting items
+//    context.delete(itemArray[indexPath.row])
+//    itemArray.remove(at: indexPath.row)
+//    saveItems(andReload: false)
+    
+    itemArray[indexPath.row].done.toggle()
     saveItems(andReload: false)
     
     UIView.animate(withDuration: 0.1, animations: {
