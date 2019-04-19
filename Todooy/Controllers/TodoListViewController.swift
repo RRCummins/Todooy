@@ -61,6 +61,8 @@ class TodoListViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
     itemArray[indexPath.row].done.toggle()
+    
+    // Updates and saves data
     saveItems(andReload: false)
     
     UIView.animate(withDuration: 0.1, animations: {
