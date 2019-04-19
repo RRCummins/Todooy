@@ -26,8 +26,11 @@ class TodoListViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    // This the location in the file system of the CoreData DB
+    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
 
-//    loadItems()
+    loadItems()
     
   }
   
@@ -110,20 +113,20 @@ class TodoListViewController: UITableViewController {
       print("Error saving context, \(error)")
     }
     if andReload == true {
+      loadItems()
       self.tableView.reloadData()
     }
   }
   
-//  func loadItems() {
-//
-//    if let data = try? Data(contentsOf: dataFilePath!) {
-//      let decoder = PropertyListDecoder()
-//      do {
-//      } catch {
-//
-//      }
-//    }
-//  }
+  func loadItems() {
+
+    let request: NSFetchRequest<Item> = Item.fetchRequest()
+    do {
+      itemArray = try context.fetch(request)
+    } catch  {
+      print("Error fetching data from context, \(error)")
+    }
+  }
 
 }
 
