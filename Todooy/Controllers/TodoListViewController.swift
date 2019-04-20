@@ -11,7 +11,7 @@ import CoreData
 
 class TodoListViewController: UITableViewController {
   
-  //MARK: Instance Variables
+  //MARK: - Instance Variables
   
   var itemArray = [Item]()
   
@@ -20,9 +20,8 @@ class TodoListViewController: UITableViewController {
   
   // You could use this to create other plist files
   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
-
   
-  //MARK: viewDidLoad
+  //MARK: - viewDidLoad
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,7 +33,7 @@ class TodoListViewController: UITableViewController {
     
   }
   
-  //MARK: tableView Datasource Methods
+  //MARK: - TableView Datasource Methods
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return itemArray.count
@@ -56,7 +55,7 @@ class TodoListViewController: UITableViewController {
     return cell
   }
   
-  //MARK: TableView Delegate Method
+  //MARK: - TableView Delegate Method
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
@@ -71,7 +70,7 @@ class TodoListViewController: UITableViewController {
     }
   }
   
-  // MARK: Delete Rows via swipe
+  //MARK: - Delete Rows via swipe
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       context.delete(itemArray[indexPath.row])
@@ -83,8 +82,8 @@ class TodoListViewController: UITableViewController {
     }
   }
   
-
-  //MARK: Add New Item Method
+  
+  //MARK: - Add New Item Method
   
   @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
     
@@ -118,7 +117,7 @@ class TodoListViewController: UITableViewController {
   }
   
   
-  //MARK: Model Manipulation Methods
+  //MARK: - Model Manipulation Methods
   
   func saveItems(andReload: Bool) {
     
@@ -142,7 +141,30 @@ class TodoListViewController: UITableViewController {
       print("Error fetching data from context, \(error)")
     }
   }
+  
 
+}
+
+//MARK: - Sarrch Bar Methods
+extension TodoListViewController: UISearchBarDelegate {
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    
+    let request: NSFetchRequest<Item> = Item.fetchRequest()
+    
+    request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text ?? "")
+
+    request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+    
+    do {
+      itemArray = try context.fetch(request)
+    } catch  {
+      print("Error fetching data from context, \(error)")
+    }
+    
+    tableView.reloadData()
+  
+    
+  }
 }
 
 
