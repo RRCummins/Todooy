@@ -60,11 +60,6 @@ class TodoListViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-    // MARK - Deleting items
-//    context.delete(itemArray[indexPath.row])
-//    itemArray.remove(at: indexPath.row)
-//    saveItems(andReload: false)
-    
     itemArray[indexPath.row].done.toggle()
     saveItems(andReload: false)
     
@@ -76,6 +71,19 @@ class TodoListViewController: UITableViewController {
     }
   }
   
+  // MARK: Delete Rows via swipe
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      context.delete(itemArray[indexPath.row])
+      itemArray.remove(at: indexPath.row)
+      saveItems(andReload: false)
+      tableView.deleteRows(at: [indexPath], with: .fade)
+    } else if editingStyle == .insert {
+      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    }
+  }
+  
+
   //MARK: Add New Item Method
   
   @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -108,6 +116,8 @@ class TodoListViewController: UITableViewController {
     present(alert, animated: true, completion: nil)
 
   }
+  
+  
   //MARK: Model Manipulation Methods
   
   func saveItems(andReload: Bool) {
