@@ -21,8 +21,9 @@ class CategoryTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    manualAddCategory(named: "Step \(tries)")
+//    manualAddCategory(named: "Step \(tries)")
     
+    loadCategory()
     
   }
   
@@ -44,6 +45,7 @@ class CategoryTableViewController: UITableViewController {
     cell.textLabel?.text = categoryArray[indexPath.row].name
     
     let category = categoryArray[indexPath.row]
+    cell.textLabel?.text = category.name
     
     return cell
   }
@@ -65,7 +67,7 @@ class CategoryTableViewController: UITableViewController {
       newCategory.name = textField.text!
       self.categoryArray.append(newCategory)
       
-      //TODO: - Save Category
+      self.saveCategory(andReload: true)
     }
     
     alert.addTextField { (alertTextField) in
