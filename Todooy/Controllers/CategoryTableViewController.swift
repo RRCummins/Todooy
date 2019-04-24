@@ -14,7 +14,6 @@ class CategoryTableViewController: UITableViewController {
   //MARK: - Instance Variables
   
   var categoryArray = [Category]()
-  var tries = 1
   
   let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
   
@@ -26,13 +25,7 @@ class CategoryTableViewController: UITableViewController {
     loadCategory()
     
   }
-  
-  func manualAddCategory(named name: String) {
-    let newCategory = Category(context: self.context)
-    newCategory.name = name
-    self.categoryArray.append(newCategory)
-    tries += 1
-  }
+
   
   //MARK: - TableView Datasource Methods
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -50,7 +43,7 @@ class CategoryTableViewController: UITableViewController {
     return cell
   }
   
-  //Mark: - Data Manipulation Methods
+  
   
   
   
@@ -80,7 +73,7 @@ class CategoryTableViewController: UITableViewController {
     present(alert, animated: true, completion: nil)
     
   }
-  //MARK: - Model Manipulation Methods
+  //Mark: - Data Manipulation Methods
   
   func saveCategory(andReload reload: Bool) {
     do {
