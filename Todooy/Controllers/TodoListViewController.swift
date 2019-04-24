@@ -141,6 +141,7 @@ class TodoListViewController: UITableViewController {
     }
     tableView.reloadData()
   }
+  
 }
 
 //MARK: - Sarrch Bar Methods
