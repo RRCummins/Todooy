@@ -15,6 +15,12 @@ class TodoListViewController: UITableViewController {
   
   var itemArray = [Item]()
   
+  var selectedCategory: Category? {
+    didSet{
+      loadItems()
+    }
+  }
+  
   //(UIApplication.shared.delegate as! AppDelegate) creates a singleton object of the AppDelegate for the current app
   let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
   
@@ -28,8 +34,6 @@ class TodoListViewController: UITableViewController {
     
     // This the location in the file system of the CoreData DB
     print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-
-    loadItems()
     
   }
   
@@ -99,6 +103,7 @@ class TodoListViewController: UITableViewController {
       let newItem = Item(context: self.context)
       newItem.title = textField.text!
       newItem.done = false
+      newItem.parentCategory = self.selectedCategory
       self.itemArray.append(newItem)
       
       self.saveItems(andReload: true)
@@ -133,8 +138,16 @@ class TodoListViewController: UITableViewController {
     }
   }
   
-  func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
-
+  func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
+    
+    let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+    if let additionalPredicate = predicate {
+      request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
+    } else {
+      request.predicate = categoryPredicate
+    }
+    
+    
     do {
       itemArray = try context.fetch(request)
     } catch  {
@@ -155,7 +168,7 @@ extension TodoListViewController: UISearchBarDelegate {
 
     request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
     
-    loadItems(with: request)
+    loadItems(with: request, predicate: request.predicate!)
     
   }
   
