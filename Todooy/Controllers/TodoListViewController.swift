@@ -71,6 +71,7 @@ class TodoListViewController: UITableViewController {
   }
   
   //MARK: - Delete Rows via swipe
+  
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       context.delete(itemArray[indexPath.row])
