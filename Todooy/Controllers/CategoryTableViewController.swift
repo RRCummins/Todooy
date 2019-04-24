@@ -78,7 +78,30 @@ class CategoryTableViewController: UITableViewController {
     present(alert, animated: true, completion: nil)
     
   }
+  //MARK: - Model Manipulation Methods
   
+  func saveCategory(andReload reload: Bool) {
+    do {
+      try context.save()
+    } catch  {
+      print("Error saving context, \(error)")
+    }
+    
+    if reload == true {
+      loadCategory()
+      self.tableView.reloadData()
+    }
+    
+  }
+  
+  func loadCategory(with request:NSFetchRequest<Category> = Category.fetchRequest()) {
+    do {
+      categoryArray = try context.fetch(request)
+    } catch  {
+      print("Error fetching data from context, \(error)")
+    }
+    tableView.reloadData()
+  }
   
   
   //MARK: - Tableview Delegate Methods
