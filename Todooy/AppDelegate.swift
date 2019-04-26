@@ -18,11 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
-    print(Realm.Configuration.defaultConfiguration.fileURL)
+    print(Realm.Configuration.defaultConfiguration.fileURL!)
     //file:///Users/ryancummins/Library/Developer/CoreSimulator/Devices/777F5C19-57A4-484D-9ADD-A2473816870D/data/Containers/Data/Application/065CF636-D4FA-4008-98BF-2F34BF475206/Documents/
-    
-//    let defaultPath = Realm.Configuration.defaultConfiguration.fileURL
-//    try NSFileManager.defaultManager()
+
     
     let data = Data()
     data.name = "Kat"
@@ -36,9 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     } catch  {
       print("Error creating new realm, \(error)")
     }
-    
-    
-    
     
     return true
   }
