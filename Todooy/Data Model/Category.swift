@@ -1,17 +1,16 @@
 //
-//  Data.swift
+//  Category.swift
 //  Todooy
 //
-//  Created by Ryan Cummins on 4/24/19.
+//  Created by Ryan Cummins on 4/27/19.
 //  Copyright © 2019 Them Rhinos. All rights reserved.
 //
 
 import Foundation
 import RealmSwift
 
-class Data: Object {
-  
+class Category: Object {
   @objc dynamic var name: String = ""
-  @objc dynamic var age: Int = 0
-  
+  let items = List<Item>()
 }
+
