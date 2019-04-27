@@ -67,8 +67,15 @@ class TodoListViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-//    itemArray[indexPath.row].done.toggle()
-//    saveItems(andReload: false)
+    if let item = todoItems?[indexPath.row] {
+      do {
+        try realm.write {
+          item.done = !item.done
+        }
+      } catch {
+        print("Error updating done status")
+      }
+    }
     
     UIView.animate(withDuration: 0.1, animations: {
       tableView.deselectRow(at: indexPath, animated: true)
