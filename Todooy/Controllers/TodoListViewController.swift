@@ -100,9 +100,6 @@ class TodoListViewController: UITableViewController {
         }
       }
       self.tableView.reloadData()
-//      context.delete(itemArray[indexPath.row])
-//      todoItems.remove(at: indexPath.row)
-//      saveItems(andReload: false)
 //      tableView.deleteRows(at: [indexPath], with: .fade)
     } else if editingStyle == .insert {
       // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -128,6 +125,7 @@ class TodoListViewController: UITableViewController {
           try self.realm.write {
             let newItem = Item()
             newItem.title = textField.text!
+            newItem.dateCreated = Date()
             currentCategory.items.append(newItem)
           }
         } catch {
@@ -144,7 +142,6 @@ class TodoListViewController: UITableViewController {
     }
     
     alert.addAction(action)
-    
     present(alert, animated: true, completion: nil)
 
   }
@@ -168,17 +165,9 @@ class TodoListViewController: UITableViewController {
 extension TodoListViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     
-    todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "title", ascending: true)
+    todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)
     
     tableView.reloadData()
-    
-//    let request: NSFetchRequest<Item> = Item.fetchRequest()
-//
-//    request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text ?? "")
-//
-//    request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-//
-//    loadItems(with: request, predicate: request.predicate!)
 
   }
 
