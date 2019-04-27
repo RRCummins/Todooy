@@ -49,7 +49,7 @@ class CategoryTableViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      //FICME: - This only deletes the category not the items in that category
+      //FIXME: - This only deletes the category not the items in that category
       if let item = categories?[indexPath.row] {
         do {
           try realm.write {
