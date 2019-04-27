@@ -44,6 +44,26 @@ class CategoryTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     performSegue(withIdentifier: "goToItems", sender: self)
   }
+  
+  //MARK: - Delete Categories via swipe
+  
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      //FICME: - This only deletes the category not the items in that category
+      if let item = categories?[indexPath.row] {
+        do {
+          try realm.write {
+            realm.delete(item)
+          }
+        } catch {
+          print("Error deleting catagory, \(error)")
+        }
+      }
+      self.tableView.reloadData()
+    } else if editingStyle == .insert {
+      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table vie
+    }
+  }
 
   
   //MARK: - Add New Categories

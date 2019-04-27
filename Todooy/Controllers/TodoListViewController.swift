@@ -85,7 +85,7 @@ class TodoListViewController: UITableViewController {
     }
   }
   
-  //MARK: - Delete Rows via swipe
+  //MARK: - Delete Items via swipe
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     
@@ -96,14 +96,14 @@ class TodoListViewController: UITableViewController {
             realm.delete(item)
           }
         } catch {
-          print("Error updating done status")
+          print("Error updating done status, \(error)")
         }
       }
       self.tableView.reloadData()
 //      context.delete(itemArray[indexPath.row])
 //      todoItems.remove(at: indexPath.row)
 //      saveItems(andReload: false)
-      tableView.deleteRows(at: [indexPath], with: .fade)
+//      tableView.deleteRows(at: [indexPath], with: .fade)
     } else if editingStyle == .insert {
       // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
