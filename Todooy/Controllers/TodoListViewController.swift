@@ -7,22 +7,22 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class TodoListViewController: UITableViewController {
   
   //MARK: - Instance Variables
   
-  var itemArray = [Item]()
+  var todoItems: Results<Item>?
+  let realm = try! Realm()
   
   var selectedCategory: Category? {
     didSet{
-//      loadItems()
+      loadItems()
     }
   }
   
   //(UIApplication.shared.delegate as! AppDelegate) creates a singleton object of the AppDelegate for the current app
-//  let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
   
   // You could use this to create other plist files
   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
@@ -40,31 +40,35 @@ class TodoListViewController: UITableViewController {
   //MARK: - TableView Datasource Methods
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return itemArray.count
+    return todoItems?.count ?? 1
   }
   
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
     let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-    cell.textLabel?.text = itemArray[indexPath.row].title
+    cell.textLabel?.text = todoItems?[indexPath.row].title
     
-    let item = itemArray[indexPath.row]
+    if let item = todoItems?[indexPath.row] {
+    
     cell.textLabel?.text = item.title
     
     //Ternery operator ==>
     // value = condition ? valueIfTure : valueIfFalse
     cell.accessoryType = item.done ? .checkmark : .none
-    
+    } else {
+      cell.textLabel?.text = "No Items Added Yet"
+    }
     return cell
+    
   }
   
   //MARK: - TableView Delegate Method
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-    itemArray[indexPath.row].done.toggle()
-    saveItems(andReload: false)
+//    itemArray[indexPath.row].done.toggle()
+//    saveItems(andReload: false)
     
     UIView.animate(withDuration: 0.1, animations: {
       tableView.deselectRow(at: indexPath, animated: true)
@@ -76,17 +80,17 @@ class TodoListViewController: UITableViewController {
   
   //MARK: - Delete Rows via swipe
   
-  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    if editingStyle == .delete {
-//      context.delete(itemArray[indexPath.row])
-      itemArray.remove(at: indexPath.row)
-      saveItems(andReload: false)
-      tableView.deleteRows(at: [indexPath], with: .fade)
-    } else if editingStyle == .insert {
-      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
-  }
-  
+//  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//    if editingStyle == .delete {
+////      context.delete(itemArray[indexPath.row])
+////      todoItems.remove(at: indexPath.row)
+//      saveItems(andReload: false)
+//      tableView.deleteRows(at: [indexPath], with: .fade)
+//    } else if editingStyle == .insert {
+//      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+//    }
+//  }
+//
   
   //MARK: - Add New Item Method
   
@@ -100,14 +104,18 @@ class TodoListViewController: UITableViewController {
       
       //What happens when the user click the Add Item button on the alert
       
-//      let newItem = Item(context: self.context)
-//      newItem.title = textField.text!
-//      newItem.done = false
-//      newItem.parentCategory = self.selectedCategory
-//      self.itemArray.append(newItem)
-//
-//      self.saveItems(andReload: true)
-      
+      if let currentCategory = self.selectedCategory {
+        do {
+          try self.realm.write {
+            let newItem = Item()
+            newItem.title = textField.text!
+            currentCategory.items.append(newItem)
+          }
+        } catch {
+          print("Error saving new items")
+        }
+      }
+      self.tableView.reloadData()
     }
     
     alert.addTextField { (alertTextField) in
@@ -125,22 +133,13 @@ class TodoListViewController: UITableViewController {
   
   //MARK: - Model Manipulation Methods
   
-  func saveItems(andReload: Bool) {
-    
-    do {
-//      try context.save()
-    } catch {
-      print("Error saving context, \(error)")
-    }
-    if andReload == true {
-//      loadItems()
-      self.tableView.reloadData()
-    }
-  }
+
   
   func loadItems() {
-//    let request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil
-//    let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+    
+    todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
+    tableView.reloadData()
+    
 //    if let additionalPredicate = predicate {
 //      request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
 //    } else {
