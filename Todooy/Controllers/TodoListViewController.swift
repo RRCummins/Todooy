@@ -87,17 +87,29 @@ class TodoListViewController: UITableViewController {
   
   //MARK: - Delete Rows via swipe
   
-//  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//    if editingStyle == .delete {
-////      context.delete(itemArray[indexPath.row])
-////      todoItems.remove(at: indexPath.row)
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    
+    if editingStyle == .delete {
+      if let item = todoItems?[indexPath.row] {
+        do {
+          try realm.write {
+            realm.delete(item)
+          }
+        } catch {
+          print("Error updating done status")
+        }
+      }
+      self.tableView.reloadData()
+//      context.delete(itemArray[indexPath.row])
+//      todoItems.remove(at: indexPath.row)
 //      saveItems(andReload: false)
-//      tableView.deleteRows(at: [indexPath], with: .fade)
-//    } else if editingStyle == .insert {
-//      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-//    }
-//  }
-//
+      tableView.deleteRows(at: [indexPath], with: .fade)
+    } else if editingStyle == .insert {
+      // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    }
+    
+  }
+
   
   //MARK: - Add New Item Method
   
