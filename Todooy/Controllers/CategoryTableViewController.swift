@@ -81,14 +81,12 @@ class CategoryTableViewController: UITableViewController {
       self.save(category: newCategory)
     }
     
-    
     alert.addTextField { (alertTextField) in
       alertTextField.placeholder = "Creates new caegory"
       textField = alertTextField
     }
     
     alert.addAction(action)
-    
     present(alert, animated: true, completion: nil)
     
   }
@@ -120,15 +118,12 @@ class CategoryTableViewController: UITableViewController {
     }
       loadCategories()
       self.tableView.reloadData()
-//    }
-    
   }
   
+  
   func loadCategories() {
-    
    categories = realm.objects(Category.self)
     tableView.reloadData()
-    
   }
   
   
