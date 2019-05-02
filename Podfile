@@ -9,5 +9,4 @@ target 'Todooy' do
 
   pod 'RealmSwift'
   pod 'SwipeCellKit'
-
 end

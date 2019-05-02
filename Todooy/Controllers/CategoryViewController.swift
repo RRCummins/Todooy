@@ -1,5 +1,5 @@
 //
-//  CategoryViewController.swift
+//  CategoryTableViewController.swift
 //  Todooy
 //
 //  Created by Ryan Cummins on 4/23/19.
@@ -11,7 +11,7 @@ import RealmSwift
 import SwipeCellKit
 
 
-class CategoryViewController: UITableViewController {
+class CategoryTableViewController: UITableViewController {
   
   //MARK: - Instance Variables
   
@@ -23,7 +23,7 @@ class CategoryViewController: UITableViewController {
     super.viewDidLoad()
     
     loadCategories()
-    
+//    tableView.rowHeight = 80
   }
 
   
@@ -32,13 +32,17 @@ class CategoryViewController: UITableViewController {
     return categories?.count ?? 1
   }
   
+//  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
+//    cell.delegate = self
+//    return cell
+//  }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
     let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! SwipeTableViewCell
     cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added Yet"
     cell.delegate = self
-    
     return cell
   }
   
@@ -67,8 +71,6 @@ class CategoryViewController: UITableViewController {
 //    }
 //  }
   
-  // SwipeCellKit
-
   
   //MARK: - Add New Categories
   
@@ -134,13 +136,14 @@ class CategoryViewController: UITableViewController {
 }
 
 //Mark: - Swipe Cell Delegate Methods
-extension CategoryViewController: SwipeTableViewCellDelegate {
+extension CategoryTableViewController: SwipeTableViewCellDelegate {
   
   func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
     guard orientation == .right else { return nil }
     
     let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
       // handle action by updating model with deletion
+      print("Item should delete, not!")
     }
     
     // customize the action appearance
