@@ -108,6 +108,7 @@ class CategoryTableViewController: SwipeTableViewController {
   // Delete Method
   
   override func updateModel(at indexPath: IndexPath) {
+    
     if let categoryForDeletion = self.categories?[indexPath.row] {
       do {
         try self.realm.write {
@@ -117,6 +118,7 @@ class CategoryTableViewController: SwipeTableViewController {
         print("Error deleting item, \(error)")
       }
     }
+    
   }
   
   
