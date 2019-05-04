@@ -32,12 +32,6 @@ class CategoryTableViewController: UITableViewController {
     return categories?.count ?? 1
   }
   
-//  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! SwipeTableViewCell
-//    cell.delegate = self
-//    return cell
-//  }
-  
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
     let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath) as! SwipeTableViewCell
@@ -46,7 +40,7 @@ class CategoryTableViewController: UITableViewController {
     return cell
   }
   
-  
+  //
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     performSegue(withIdentifier: "goToItems", sender: self)
   }
@@ -144,6 +138,16 @@ extension CategoryTableViewController: SwipeTableViewCellDelegate {
     let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
       // handle action by updating model with deletion
       print("Item should delete, not!")
+      if let CategoryForDeletion = self.categories?[indexPath.row] {
+        do {
+          try self.realm.write {
+            self.realm.delete(CategoryForDeletion)
+          }
+        } catch {
+          print("Error deleting item, \(error)")
+        }
+      }
+
     }
     
     // customize the action appearance
@@ -151,5 +155,12 @@ extension CategoryTableViewController: SwipeTableViewCellDelegate {
     
     return [deleteAction]
   }
+  
+  func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+    var options = SwipeOptions()
+    options.expansionStyle = .destructive
+    return options
+  }
+  
   
 }
