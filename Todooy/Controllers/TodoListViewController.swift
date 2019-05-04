@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: SwipeTableViewController {
   
   //MARK: - Instance Variables
   
@@ -21,8 +21,7 @@ class TodoListViewController: UITableViewController {
       loadItems()
     }
   }
-  
-  //(UIApplication.shared.delegate as! AppDelegate) creates a singleton object of the AppDelegate for the current app
+
   
   // You could use this to create other plist files
   let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
@@ -33,7 +32,7 @@ class TodoListViewController: UITableViewController {
     super.viewDidLoad()
     
     // This the location in the file system of the CoreData DB
-    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+//    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     
   }
   
@@ -46,7 +45,7 @@ class TodoListViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-    let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+    let cell = super.tableView(tableView, cellForRowAt: indexPath)
     cell.textLabel?.text = todoItems?[indexPath.row].title
     
     if let item = todoItems?[indexPath.row] {
