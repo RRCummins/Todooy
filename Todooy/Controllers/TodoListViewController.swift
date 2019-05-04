@@ -157,6 +157,19 @@ class TodoListViewController: SwipeTableViewController {
     
   }
   
+  override func updateModel(at indexPath: IndexPath) {
+    if let itemsForDeletion = self.todoItems?[indexPath.row] {
+      do {
+        try self.realm.write {
+          realm.delete(itemsForDeletion)
+        }
+      } catch {
+        print("Error deleting todoList Item, \(error)")
+      }
+      
+    }
+  }
+  
 }
 
 //MARK: - Sarrch Bar Methods
