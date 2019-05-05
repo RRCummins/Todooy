@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class TodoListViewController: SwipeTableViewController {
   
@@ -30,7 +31,7 @@ class TodoListViewController: SwipeTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    tableView.separatorStyle = .none
     // This the location in the file system of the CoreData DB
 //    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     
@@ -51,6 +52,10 @@ class TodoListViewController: SwipeTableViewController {
     if let item = todoItems?[indexPath.row] {
     
     cell.textLabel?.text = item.title
+      if let color = FlatSkyBlue().darken(byPercentage: CGFloat(indexPath.row)/CGFloat(todoItems!.count)) {
+        cell.backgroundColor = color
+      }
+      
     
     //Ternery operator ==>
     // value = condition ? valueIfTure : valueIfFalse
