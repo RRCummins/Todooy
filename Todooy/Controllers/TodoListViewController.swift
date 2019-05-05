@@ -17,11 +17,15 @@ class TodoListViewController: SwipeTableViewController {
   var todoItems: Results<Item>?
   let realm = try! Realm()
   
+  @IBOutlet weak var searchBar: UISearchBar!
+  
   var selectedCategory: Category? {
     didSet{
       loadItems()
     }
   }
+  
+  
 
   
   // You could use this to create other plist files
@@ -31,9 +35,27 @@ class TodoListViewController: SwipeTableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     tableView.separatorStyle = .none
-    // This the location in the file system of the CoreData DB
-//    print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+    tableView.rowHeight = 80
+    
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    
+    if let colorHex = selectedCategory?.backgroundColor {
+      guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+      
+      title = selectedCategory!.name
+      
+      if let naveBarColor = UIColor(hexString: colorHex) {
+        navBar.barTintColor = naveBarColor
+        navBar.tintColor = ContrastColorOf(naveBarColor, returnFlat: true)
+        searchBar.barTintColor = naveBarColor
+        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(naveBarColor, returnFlat: true)]
+      }
+      
+    }
     
   }
   
@@ -52,8 +74,8 @@ class TodoListViewController: SwipeTableViewController {
     if let item = todoItems?[indexPath.row] {
       
       cell.textLabel?.text = item.title
-      let startingColor: UIColor = UIColor(hexString: self.selectedCategory!.backgroundColor)?.lighten(byPercentage: 0.50) ?? FlatWhite()
-      if let color = startingColor.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(todoItems!.count)) {
+      let startingBGColor: UIColor = UIColor(hexString: self.selectedCategory!.backgroundColor)?.lighten(byPercentage: 0.50) ?? FlatWhite()
+      if let color = startingBGColor.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(todoItems!.count)) {
         cell.backgroundColor = color
       }
       cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor ?? FlatWhite(), returnFlat: true)
