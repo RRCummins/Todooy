@@ -55,8 +55,9 @@ class TodoListViewController: SwipeTableViewController {
       if let color = FlatSkyBlue().darken(byPercentage: CGFloat(indexPath.row)/CGFloat(todoItems!.count)) {
         cell.backgroundColor = color
       }
-      
+    cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor ?? FlatWhite(), returnFlat: true)
     
+      
     //Ternery operator ==>
     // value = condition ? valueIfTure : valueIfFalse
     cell.accessoryType = item.done ? .checkmark : .none
