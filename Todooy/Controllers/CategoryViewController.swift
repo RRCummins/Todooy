@@ -38,9 +38,11 @@ class CategoryTableViewController: SwipeTableViewController {
     
     let cell = super.tableView(tableView, cellForRowAt: indexPath)
     cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added Yet"
-    cell.backgroundColor = UIColor(hexString: categories?[indexPath.row].backgroundColor ?? UIColor.randomFlat.hexValue())
-    cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor ?? FlatWhite(), returnFlat: true)
-    
+    if let category = categories?[indexPath.row] {
+      guard let categoryColor = UIColor(hexString: category.backgroundColor) else {fatalError()}
+      cell.backgroundColor = categoryColor
+      cell.textLabel?.textColor = ContrastColorOf(categoryColor, returnFlat: true)
+    }
     return cell
   }
   
