@@ -12,6 +12,7 @@ import ChameleonFramework
 
 class CategoryTableViewController: SwipeTableViewController {
   
+  
   //MARK: - Instance Variables
   
   let realm = try! Realm()
@@ -132,5 +133,3 @@ class CategoryTableViewController: SwipeTableViewController {
   
   
 }
-
-

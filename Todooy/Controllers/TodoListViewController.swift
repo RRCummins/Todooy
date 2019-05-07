@@ -24,12 +24,7 @@ class TodoListViewController: SwipeTableViewController {
       loadItems()
     }
   }
-  
-  
 
-  
-  // You could use this to create other plist files
-  let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
   
   //MARK: - viewDidLoad
   
@@ -41,6 +36,7 @@ class TodoListViewController: SwipeTableViewController {
     
   }
   
+  
   override func viewWillAppear(_ animated: Bool) {
     
     title = selectedCategory?.name
@@ -49,10 +45,13 @@ class TodoListViewController: SwipeTableViewController {
     
   }
   
+  
   override func viewWillDisappear(_ animated: Bool) {
     
     updateNavBar(withHexcode: "1D9BF6")
+    
   }
+  
   
   //MARK: - Nav Bar Setup Methods
   
@@ -98,6 +97,7 @@ class TodoListViewController: SwipeTableViewController {
     
   }
   
+  
   //MARK: - TableView Delegate Method
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -119,6 +119,7 @@ class TodoListViewController: SwipeTableViewController {
       self.tableView.reloadData()
     }
   }
+  
   
   //MARK: - Delete Items via swipe
   
@@ -184,8 +185,6 @@ class TodoListViewController: SwipeTableViewController {
   
   //MARK: - Model Manipulation Methods
   
-
-  
   func loadItems() {
     
     todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
@@ -205,11 +204,10 @@ class TodoListViewController: SwipeTableViewController {
         print("Error deleting todoList Item, \(error)")
       }
     }
-    
   }
   
-  
 }
+
 
 //MARK: - Sarrch Bar Methods
 
@@ -222,6 +220,7 @@ extension TodoListViewController: UISearchBarDelegate {
 
   }
 
+  
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text?.count == 0 {
       loadItems()
@@ -230,9 +229,7 @@ extension TodoListViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
       }
     }
-
   }
-
 
 }
 

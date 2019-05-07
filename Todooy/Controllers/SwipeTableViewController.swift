@@ -15,6 +15,7 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
         super.viewDidLoad()
     }
   
+  
   //MARK: - TableView Datasource Methods
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
@@ -22,6 +23,7 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     cell.delegate = self
     return cell
   }
+  
   
   //MARK: Delete Cell Methods
   
@@ -39,17 +41,22 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     deleteAction.image = UIImage(named: "delete-icon")
     
     return [deleteAction]
+    
   }
   
+  
   func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+    
     var options = SwipeOptions()
     options.expansionStyle = .destructive
     return options
+    
   }
 
+  
   func updateModel(at indexPath: IndexPath) {
     
-    //Update our data model
+    //Update our data model by overriding this method
     
   }
 
