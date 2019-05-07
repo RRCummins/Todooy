@@ -19,12 +19,48 @@ class CategoryTableViewController: SwipeTableViewController {
   
   var categories: Results<Category>?
   
+  @IBOutlet weak var barThemeButton: UIBarButtonItem!
+  
+  var themeBaseColors: Array = [FlatLime(), FlatOrange(), FlatMint(), FlatMagenta(), FlatTeal(), FlatPurple(), FlatPowderBlue()]
+  
+  
+  //MARK: - View Change Methods
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     loadCategories()
     tableView.rowHeight = 80
     tableView.separatorStyle = .none
+    
+  }
+  
+  
+  override func viewWillAppear(_ animated: Bool) {
+    
+//    title = selectedCategory?.name
+    updateNavBar(withUIColor: theme.themeColor)
+    
+  }
+  
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    
+    updateNavBar(withUIColor: UIColor(hexString: "1D9BF6")!)
+    
+  }
+  
+  
+  //MARK: - Nav Bar Setup Methods
+  
+  func updateNavBar(withUIColor colorName: UIColor) {
+    guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+    
+    let naveBarColor = colorName
+    
+    navBar.barTintColor = naveBarColor
+    navBar.tintColor = ContrastColorOf(naveBarColor, returnFlat: true)
+    navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(naveBarColor, returnFlat: true)]
     
   }
 
@@ -39,11 +75,19 @@ class CategoryTableViewController: SwipeTableViewController {
     
     let cell = super.tableView(tableView, cellForRowAt: indexPath)
     cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added Yet"
-    if let category = categories?[indexPath.row] {
-      guard let categoryColor = UIColor(hexString: category.backgroundColor) else {fatalError()}
-      cell.backgroundColor = categoryColor
-      cell.textLabel?.textColor = ContrastColorOf(categoryColor, returnFlat: true)
-    }
+    
+//    if let category = categories?[indexPath.row] {
+//      guard let categoryColor = UIColor(hexString: category.backgroundColor) else {fatalError()}
+      let startingBGColor: UIColor = theme.themeColor.lighten(byPercentage: 0.50) ?? FlatWhite()
+      if let cellColor = startingBGColor.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(categories!.count)) {
+        cell.backgroundColor = cellColor
+        //FIXME: - SelectionStyle needs to be a 10% darker version of the cell not none
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        cell.textLabel?.textColor = ContrastColorOf(cellColor, returnFlat: true)
+      }
+//      cell.backgroundColor = categoryColor
+//      cell.textLabel?.textColor = ContrastColorOf(categoryColor, returnFlat: true)
+//    }
     return cell
   }
   
@@ -131,5 +175,19 @@ class CategoryTableViewController: SwipeTableViewController {
     
   }
   
+  @IBAction func barThemeButtonPressed(_ sender: Any) {
+    
+    theme.themeColor = themeBaseColors[Int.random(in: 0..<themeBaseColors.count)]
+    tableView.reloadData()
+    updateNavBar(withUIColor: theme.themeColor)
+    //    print(themeColor)
+    
+  }
+  
+}
+
+struct theme {
+  
+  static var themeColor = FlatGrayDark()
   
 }

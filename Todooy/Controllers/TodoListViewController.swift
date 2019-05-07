@@ -40,24 +40,23 @@ class TodoListViewController: SwipeTableViewController {
   override func viewWillAppear(_ animated: Bool) {
     
     title = selectedCategory?.name
-    guard let colorHex = selectedCategory?.backgroundColor else {fatalError()}
-    updateNavBar(withHexcode: colorHex)
+    updateNavBar(withUIColor: theme.themeColor)
     
   }
   
   
   override func viewWillDisappear(_ animated: Bool) {
     
-    updateNavBar(withHexcode: "1D9BF6")
+    updateNavBar(withUIColor: UIColor(hexString: "1D9BF6")!)
     
   }
   
   
   //MARK: - Nav Bar Setup Methods
-  
-  func updateNavBar(withHexcode colorHexCode: String) {
+  func updateNavBar(withUIColor colorName: UIColor) {
     guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
-    guard let naveBarColor = UIColor(hexString: colorHexCode) else {fatalError()}
+    
+    let naveBarColor = colorName
     
     navBar.barTintColor = naveBarColor
     navBar.tintColor = ContrastColorOf(naveBarColor, returnFlat: true)
@@ -65,6 +64,7 @@ class TodoListViewController: SwipeTableViewController {
     navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(naveBarColor, returnFlat: true)]
     
   }
+  
   
   //MARK: - TableView Datasource Methods
   
@@ -81,7 +81,8 @@ class TodoListViewController: SwipeTableViewController {
     if let item = todoItems?[indexPath.row] {
       
       cell.textLabel?.text = item.title
-      let startingBGColor: UIColor = UIColor(hexString: self.selectedCategory!.backgroundColor)?.lighten(byPercentage: 0.50) ?? FlatWhite()
+//      let startingBGColor: UIColor = UIColor(hexString: self.selectedCategory!.backgroundColor)?.lighten(byPercentage: 0.50) ?? FlatWhite()
+      let startingBGColor: UIColor = theme.themeColor.lighten(byPercentage: 0.50) ?? FlatWhite()
       if let color = startingBGColor.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(todoItems!.count)) {
         cell.backgroundColor = color
       }
