@@ -35,12 +35,11 @@
                     <navigationItem key="navigationItem" title="Todooy" id="Evz-Kj-NPB">
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="Exc-YJ-ztn">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="addButtonPressed:" destination="d2a-jd-srh" id="4J2-tI-YIc"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" id="LDZ-kX-653">
+                            <barButtonItem title="Theme" id="LDZ-kX-653">
                                 <connections>
                                     <action selector="barThemeButtonPressed:" destination="d2a-jd-srh" id="IsV-nl-5b4"/>
                                 </connections>

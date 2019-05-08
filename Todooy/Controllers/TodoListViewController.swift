@@ -41,6 +41,7 @@ class TodoListViewController: SwipeTableViewController {
     
     title = selectedCategory?.name
     updateNavBar(withUIColor: theme.themeColor)
+    tableView.backgroundColor = theme.themeColor.darken(byPercentage: 0.5)
     
   }
   
